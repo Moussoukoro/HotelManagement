@@ -131,7 +131,7 @@ const SuccessMessage = styled.p`
 
 
 export default function ForgotPassword() {
-  const router = useRouter(); // Crée une instance du router
+ 
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);

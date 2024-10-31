@@ -269,7 +269,7 @@ const Login: React.FC = () => {
               onChange={handleInputChange}
               disabled={isLoading}
             />
-            <label htmlFor="rememberMe">Gardez-moi connecté</label>
+            <label htmlFor="rememberMe">Gardez-moi connecte</label>
           </CheckboxContainer>
           <LoginButton type="submit" disabled={isLoading}>
             {isLoading ? 'Connexion...' : 'Se connecter'}
@@ -277,10 +277,10 @@ const Login: React.FC = () => {
         </LoginForm>
       </LoginCard>
       <ForgotPasswordLink href="/md">
-        Mot de passe oublié?
+        Mot de passe oublie?
       </ForgotPasswordLink>
       <SignUpContainer>
-        Vous n'avez pas de compte?
+        Vous navez pas de compte?
         <Link href="/inscrire">S'inscrire</Link>
       </SignUpContainer>
     </LoginContainer>

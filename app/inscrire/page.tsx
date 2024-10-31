@@ -3,6 +3,7 @@ import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styled from 'styled-components';
+import Image from 'next/image';
 
 const RegisterContainer = styled.div`
   width: 100%;
@@ -172,7 +173,8 @@ const Register: React.FC = () => {
   return (
     <RegisterContainer>
       <Logo>
-        <img src="red-product-logo.png" alt="RED PRODUCT" />
+        <Image src="red-product-logo.png" alt="RED PRODUCT"   width={32} 
+                height={32}   />
         RED PRODUCT
       </Logo>
       <RegisterCard>
@@ -212,7 +214,7 @@ const Register: React.FC = () => {
             </label>
           </CheckboxContainer>
           <RegisterButton type="submit">
-            S'inscrire
+            Sinscrire
           </RegisterButton>
         </RegisterForm>
       </RegisterCard>
