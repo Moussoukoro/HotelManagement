@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Bell, User, Menu, LayoutGrid, Hotel, Mail, MessageSquare, Users, Building, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 
 interface UserInfo {
@@ -161,7 +162,7 @@ const Dashboard = () => {
             // Ici, utilisez 'undefined' ou une autre variable pour afficher un message approprié
         setUser(userData.data.user); // Assurez-vous d'accéder correctement au nom d'utilisateur
    // Vérifiez le nom d'utilisateur après la mise à jour
-   console.log('Nom d’utilisateur:', userData.data.user.username || 'Nom d’utilisateur indisponible'); // Affichez le nom d'utilisateur
+   console.log('Nom dutilisateur:', userData.data.user.username || 'Nom dutilisateur indisponible'); // Affichez le nom d'utilisateur
         } else {
           console.error('Utilisateur non authentifié ou jeton invalide');
 
@@ -211,9 +212,11 @@ const Dashboard = () => {
         <>
           <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
             {user.avatar ? (
-              <img 
+              <Image 
                 src={user.avatar} 
                 alt={user.username} 
+                width={32} // Ajoutez ces propriétés requises
+                height={32} // pour le composant Image de Next.js
                 className="w-full h-full rounded-full object-cover"
               />
             ) : (
@@ -222,7 +225,7 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col"> 
           <span className="text-sm font-medium">
-  {user.username ? user.username : 'Nom d’utilisateur indisponible'}
+  {user.username ? user.username : 'Nom dutilisateur indisponible'}
 </span>
             {/* <span className="text-xs text-gray-500">{user.email}</span> */}
           </div>
