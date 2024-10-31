@@ -6,3 +6,10 @@ declare module 'next/server' {
     user?: any; // Vous pouvez remplacer `any` par un type plus spécifique si vous avez un type défini pour l'utilisateur
   }
 }
+import { NextRequest } from 'next/server';
+
+declare module 'next/server' {
+  interface NextRequest {
+    user?: JWTPayload; // Utilisez l'interface JWTPayload que vous avez définie
+  }
+}

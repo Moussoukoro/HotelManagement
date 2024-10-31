@@ -221,13 +221,13 @@ const HotelModal: React.FC<HotelModalProps> = ({ isOpen, onClose, hotel, onSubmi
           <BackButton onClick={onClose}>
             <ArrowLeft size={24} />
           </BackButton>
-          <Title>{hotel ? 'MODIFIER L\'HÔTEL' : 'CRÉER UN NOUVEAU HÔTEL'}</Title>
+          <Title>{hotel ? 'MODIFIER LHoTEL' : 'CRÉER UN NOUVEAU HoTEL'}</Title>
         </Header>
 
         <Form onSubmit={handleSubmit}>
           <Grid>
             <FormGroup>
-              <Label>Nom de l'hôtel</Label>
+              <Label>Nom de lhotel</Label>
               <Input
                 type="text"
                 name="name"

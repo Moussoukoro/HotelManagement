@@ -34,11 +34,6 @@ const StyledAuthCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 
 const StyledInput = styled.input`
   width: 100%;
@@ -75,16 +70,7 @@ const StyledCheckbox = styled.div`
   gap: 0.5rem;
 `;
 
-const StyledLink = styled.a`
-  color: #4A5568;
-  text-decoration: none;
-  text-align: center;
-  font-size: 0.875rem;
-  
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+
 
 // Props types for components
 interface AuthLayoutProps {

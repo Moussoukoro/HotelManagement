@@ -281,7 +281,7 @@ const Login: React.FC = () => {
       </ForgotPasswordLink>
       <SignUpContainer>
         Vous navez pas de compte?
-        <Link href="/inscrire">S'inscrire</Link>
+        <Link href="/inscrire">Sinscrire</Link>
       </SignUpContainer>
     </LoginContainer>
   );

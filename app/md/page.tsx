@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Import nécessaire pour l'utilisation du router dans Next.js
 import { usePathname } from 'next/navigation';
 
 const Container = styled.div`
@@ -288,90 +287,90 @@ export const ResetPassword = () => {
   );
 };
 
-// Component pour la mise à jour du mot de passe
-export const UpdatePassword = () => {
-  const [formData, setFormData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    passwordConfirm: ''
-  });
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+// // Component pour la mise à jour du mot de passe
+// export const UpdatePassword = () => {
+//   const [formData, setFormData] = useState({
+//     currentPassword: '',
+//     newPassword: '',
+//     passwordConfirm: ''
+//   });
+//   const [message, setMessage] = useState('');
+//   const [error, setError] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.newPassword !== formData.passwordConfirm) {
-      setError('Les nouveaux mots de passe ne correspondent pas');
-      return;
-    }
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (formData.newPassword !== formData.passwordConfirm) {
+//       setError('Les nouveaux mots de passe ne correspondent pas');
+//       return;
+//     }
 
-    setIsLoading(true);
-    setError('');
+//     setIsLoading(true);
+//     setError('');
 
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/update-password', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assurez-vous d'avoir le token
-        },
-        body: JSON.stringify({
-          currentPassword: formData.currentPassword,
-          newPassword: formData.newPassword,
-        })
-      });
+//     try {
+//       const response = await fetch('http://localhost:5000/api/auth/update-password', {
+//         method: 'POST',
+//         headers: { 
+//           'Content-Type': 'application/json',
+//           'Authorization': `Bearer ${localStorage.getItem('token')}` // Assurez-vous d'avoir le token
+//         },
+//         body: JSON.stringify({
+//           currentPassword: formData.currentPassword,
+//           newPassword: formData.newPassword,
+//         })
+//       });
       
-      const data = await response.json();
+//       const data = await response.json();
       
-      if (data.status === 'success') {
-        setMessage('Votre mot de passe a été mis à jour avec succès');
-        setFormData({
-          currentPassword: '',
-          newPassword: '',
-          passwordConfirm: ''
-        });
-      } else {
-        setError(data.message);
-      }
-    } catch (err) {
-      setError('Une erreur est survenue. Veuillez réessayer.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+//       if (data.status === 'success') {
+//         setMessage('Votre mot de passe a été mis à jour avec succès');
+//         setFormData({
+//           currentPassword: '',
+//           newPassword: '',
+//           passwordConfirm: ''
+//         });
+//       } else {
+//         setError(data.message);
+//       }
+//     } catch (err) {
+//       setError('Une erreur est survenue. Veuillez réessayer.');
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
 
-  return (
-    <Container>
-      <Title>Modification du mot de passe</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="password"
-          value={formData.currentPassword}
-          onChange={(e) => setFormData({...formData, currentPassword: e.target.value})}
-          placeholder="Mot de passe actuel"
-          required
-        />
-        <Input
-          type="password"
-          value={formData.newPassword}
-          onChange={(e) => setFormData({...formData, newPassword: e.target.value})}
-          placeholder="Nouveau mot de passe"
-          required
-        />
-        <Input
-          type="password"
-          value={formData.passwordConfirm}
-          onChange={(e) => setFormData({...formData, passwordConfirm: e.target.value})}
-          placeholder="Confirmez le nouveau mot de passe"
-          required
-        />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Modification...' : 'Modifier'}
-        </Button>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {message && <SuccessMessage>{message}</SuccessMessage>}
-      </Form>
-    </Container>
-  );
-};
+//   return (
+//     <Container>
+//       <Title>Modification du mot de passe</Title>
+//       <Form onSubmit={handleSubmit}>
+//         <Input
+//           type="password"
+//           value={formData.currentPassword}
+//           onChange={(e) => setFormData({...formData, currentPassword: e.target.value})}
+//           placeholder="Mot de passe actuel"
+//           required
+//         />
+//         <Input
+//           type="password"
+//           value={formData.newPassword}
+//           onChange={(e) => setFormData({...formData, newPassword: e.target.value})}
+//           placeholder="Nouveau mot de passe"
+//           required
+//         />
+//         <Input
+//           type="password"
+//           value={formData.passwordConfirm}
+//           onChange={(e) => setFormData({...formData, passwordConfirm: e.target.value})}
+//           placeholder="Confirmez le nouveau mot de passe"
+//           required
+//         />
+//         <Button type="submit" disabled={isLoading}>
+//           {isLoading ? 'Modification...' : 'Modifier'}
+//         </Button>
+//         {error && <ErrorMessage>{error}</ErrorMessage>}
+//         {message && <SuccessMessage>{message}</SuccessMessage>}
+//       </Form>
+//     </Container>
+//   );
+// };
