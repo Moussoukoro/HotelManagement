@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { Bell, User, Menu, LayoutGrid, Hotel, Search, Plus, Edit, Trash2 } from 'lucide-react';
+import { Bell, Menu, LayoutGrid, Hotel, Search, Plus, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import HotelModal from '@/components/hotel/HotelModal';
 
@@ -98,6 +98,8 @@ const HotelsList = () => {
     return `${price.toLocaleString()} ${devise}`;
   };
 
+
+
   const showAlert = (message: string, type: 'success' | 'error' = 'success'): void => {
     setAlert({ show: true, message, type });
     setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 3000);
@@ -116,7 +118,7 @@ const HotelsList = () => {
 
   useEffect(() => {
     fetchHotels();
-  }, []);
+  }, [fetchHotels]);
 
   const handleCreateHotel = async (formData: HotelFormData): Promise<void> => {
     try {
@@ -149,6 +151,7 @@ const HotelsList = () => {
         showAlert('Erreur lors de la création de l\'hôtel', 'error');
       }
     } catch (error) {
+      console.error('Erreur lors de la création de l\'hôtel:', error);
       showAlert('Erreur lors de la création de l\'hôtel', 'error');
     }
   };
@@ -182,6 +185,7 @@ const HotelsList = () => {
         showAlert('Erreur lors de la mise à jour de l\'hôtel', 'error');
       }
     } catch (error) {
+      console.error('Erreur lors de la création de l\'hôtel:', error);
       showAlert('Erreur lors de la mise à jour de l\'hôtel', 'error');
     }
   };
@@ -196,9 +200,11 @@ const HotelsList = () => {
           showAlert('Hôtel supprimé avec succès');
           fetchHotels();
         } else {
+          
           showAlert('Erreur lors de la suppression de l\'hôtel', 'error');
         }
       } catch (error) {
+        console.error('Erreur lors de la création de l\'hôtel:', error);
         showAlert('Erreur lors de la suppression de l\'hôtel', 'error');
       }
     }
