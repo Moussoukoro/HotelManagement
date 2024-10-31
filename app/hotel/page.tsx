@@ -108,7 +108,7 @@ const HotelsList = () => {
 
   const fetchHotels  = useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/hotels');
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels');
       const data = await response.json();
       setHotels(data);
     } catch (error) {
@@ -136,7 +136,7 @@ const HotelsList = () => {
       actualFormData.append('contactInfo', '');
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/hotels', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels', {
         method: 'POST',
         body: actualFormData,
         headers: {
@@ -173,7 +173,7 @@ const HotelsList = () => {
       actualFormData.append('status', selectedHotel.status);
       actualFormData.append('contactInfo', selectedHotel.contactInfo);
 
-      const response = await fetch(`http://localhost:5000/api/hotels/${selectedHotel._id}`, {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/hotels/${selectedHotel._id}`, {
         method: 'PUT',
         body: actualFormData
       });
@@ -193,7 +193,7 @@ const HotelsList = () => {
   const handleDeleteHotel = async (hotelId: string): Promise<void> => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cet hôtel ?')) {
       try {
-        const response = await fetch(`http://localhost:5000/api/hotels/${hotelId}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/hotels/${hotelId}`, {
           method: 'DELETE',
         });
 
@@ -268,7 +268,7 @@ const HotelsList = () => {
               <div key={hotel._id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-48">
                   <Image 
-                    src={`http://localhost:5000/${hotel.images[0]}`}
+                    src={process.env.NEXT_PUBLIC_API_URL+`/${hotel.images[0]}`}
                     alt={hotel.name}
                     
                     className="w-full h-full object-cover"

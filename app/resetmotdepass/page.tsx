@@ -167,7 +167,7 @@ export default function ResetPassword() {
     setAlert(null);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/auth/reset-password/${token}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
