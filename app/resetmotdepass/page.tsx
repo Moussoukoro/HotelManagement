@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
+// Configuration pour Next.js
+export const dynamic = "force-dynamic";
+
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
@@ -128,7 +131,6 @@ export default function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Récupérer le token depuis les query params
     const tokenFromQuery = searchParams.get('token');
     if (tokenFromQuery) {
       setToken(tokenFromQuery);
@@ -137,7 +139,6 @@ export default function ResetPassword() {
         type: 'error',
         message: 'Token de réinitialisation manquant'
       });
-      // Rediriger après 2 secondes si pas de token
       setTimeout(() => {
         router.push('/auth');
       }, 2000);
