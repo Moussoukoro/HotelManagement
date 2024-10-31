@@ -1,10 +1,10 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback  } from 'react';
 import { Bell, Menu, LayoutGrid, Hotel, Search, Plus, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import HotelModal from '@/components/hotel/HotelModal';
 import Image from 'next/image';
-import { useCallback } from 'react';
+
 // Mise à jour de l'interface pour correspondre exactement à celle de HotelModal
 interface HotelFormData {
   name: string;
@@ -115,7 +115,7 @@ const HotelsList = () => {
       console.error('Error fetching hotels:', error);
       showAlert('Erreur lors du chargement des hôtels', 'error');
     }
-  }, []); 
+  }, []);
 
   useEffect(() => {
     fetchHotels();
@@ -267,7 +267,7 @@ const HotelsList = () => {
             {hotels.map((hotel) => (
               <div key={hotel._id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-48">
-                  <img 
+                  <Image 
                     src={`http://localhost:5000/${hotel.images[0]}`}
                     alt={hotel.name}
                     
