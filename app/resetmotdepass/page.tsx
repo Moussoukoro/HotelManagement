@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Configuration pour Next.js
+// Ajout pour forcer le rendu dynamique
 export const dynamic = "force-dynamic";
 
 const Container = styled.div`
@@ -167,18 +167,17 @@ export default function ResetPassword() {
     setAlert(null);
 
     try {
-      // Modification de la requête pour inclure le token dans le header Authorization
       const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Ajout du token dans le header
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
           password: formData.password,
           passwordConfirm: formData.passwordConfirm 
         }),
-        credentials: 'include' // Ajout pour gérer les cookies si nécessaire
+        credentials: 'include'
       });
 
       const data = await response.json();
@@ -188,11 +187,9 @@ export default function ResetPassword() {
           type: 'success',
           message: 'Votre mot de passe a été réinitialisé avec succès'
         });
-        
-        // Redirection après 2 secondes
         setTimeout(() => {
           router.push('/auth');
-        }, 10000);
+        }, 2000);
       } else {
         throw new Error(data.message || 'Une erreur est survenue');
       }
@@ -207,54 +204,51 @@ export default function ResetPassword() {
   };
 
   return (
-    <Container>
-      <LogoContainer>
-        <LogoImage src="/red-product-logo.png" alt="RED PRODUCT" />
-        <LogoText>RED PRODUCT</LogoText>
-      </LogoContainer>
-      <Content>
-        <Title>Réinitialisation du mot de passe</Title>
-        <Description>
-          Veuillez entrer votre nouveau mot de passe ci-dessous.
-        </Description>
+    <Suspense fallback={<div>Chargement...</div>}>
+      <Container>
+        <LogoContainer>
+          <LogoImage src="/red-product-logo.png" alt="RED PRODUCT" />
+          <LogoText>RED PRODUCT</LogoText>
+        </LogoContainer>
+        <Content>
+          <Title>Réinitialisation du mot de passe</Title>
+          <Description>
+            Veuillez entrer votre nouveau mot de passe ci-dessous.
+          </Description>
 
-        {alert && (
-          <Alert type={alert.type}>
-            {alert.message}
-          </Alert>
-        )}
+          {alert && (
+            <Alert type={alert.type}>
+              {alert.message}
+            </Alert>
+          )}
 
-        <Form onSubmit={handleSubmit}>
-          <Input
-            type="password"
-            placeholder="Nouveau mot de passe"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-            disabled={isLoading}
-          />
-          <Input
-            type="password"
-            placeholder="Confirmez le mot de passe"
-            value={formData.passwordConfirm}
-            onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
-            required
-            disabled={isLoading}
-          />
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Réinitialisation...' : 'Réinitialiser le mot de passe'}
-          </Button>
-        </Form>
+          <Form onSubmit={handleSubmit}>
+            <Input
+              type="password"
+              placeholder="Nouveau mot de passe"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              required
+              disabled={isLoading}
+            />
+            <Input
+              type="password"
+              placeholder="Confirmez le mot de passe"
+              value={formData.passwordConfirm}
+              onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
+              required
+              disabled={isLoading}
+            />
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Réinitialisation...' : 'Réinitialiser le mot de passe'}
+            </Button>
+          </Form>
 
-        <Link href="/auth" passHref legacyBehavior>
-          <BackLink>Revenir à la connexion</BackLink>
-        </Link>
-      </Content>
-    </Container>
+          <Link href="/auth" passHref legacyBehavior>
+            <BackLink>Revenir à la connexion</BackLink>
+          </Link>
+        </Content>
+      </Container>
+    </Suspense>
   );
 }
-
-
-
-
-
