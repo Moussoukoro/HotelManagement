@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { NextRequest } from 'next/server'; // eslint-disable-line @typescript-eslint/no-unused-vars
+
 
 const Container = styled.div`
   min-height: 100vh;
@@ -165,6 +167,7 @@ export default function ForgotPassword() {
       // router.push(`/resetmotdepass?token=${data.token}`); // Remplace `data.token` par la valeur réelle que tu as pour le token
 
     } catch (error) {
+      console.error(error); 
       setAlert({
         type: 'error',
         message: error instanceof Error ? error.message : 'Une erreur est survenue',
@@ -253,6 +256,7 @@ export const ResetPassword = () => {
         setError(data.message);
       }
     } catch (err) {
+      console.error(err); 
       setError('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsLoading(false);

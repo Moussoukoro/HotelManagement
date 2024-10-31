@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import jwt from 'jsonwebtoken';
 
 // Interface pour le payload JWT
@@ -37,7 +38,8 @@ export function middleware(request: NextRequest) {
       Object.assign(request, { user: decoded });
 
       return NextResponse.next();
-    } catch (_error) {
+    } catch (error) {
+      console.error('JWT verification error:', error); // Optionnel : log de l'erreur
       // Utiliser _error pour indiquer une variable intentionnellement non utilisée
       return NextResponse.redirect(new URL('/auth/login', request.url));
     }
