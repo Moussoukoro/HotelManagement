@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import styled from 'styled-components';
-import { usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -73,10 +73,17 @@ const SuccessMessage = styled.p`
   margin-top: 0.5rem;
 `;
 
-// Component pour réinitialiser le mot de passe
-export const ResetPassword = () => {
-  const pathname = usePathname();
-  const token = pathname.split('/').pop();
+const LoadingSpinner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+`;
+
+// Composant interne qui utilise useSearchParams
+const ResetPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
   const [formData, setFormData] = useState({
     password: '',
@@ -120,29 +127,38 @@ export const ResetPassword = () => {
   };
 
   return (
+    <Form onSubmit={handleSubmit}>
+      <Input
+        type="password"
+        value={formData.password}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        placeholder="Nouveau mot de passe"
+        required
+      />
+      <Input
+        type="password"
+        value={formData.passwordConfirm}
+        onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
+        placeholder="Confirmez le mot de passe"
+        required
+      />
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? 'Réinitialisation...' : 'Réinitialiser'}
+      </Button>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {message && <SuccessMessage>{message}</SuccessMessage>}
+    </Form>
+  );
+};
+
+// Composant principal avec Suspense
+export const ResetPassword = () => {
+  return (
     <Container>
       <Title>Réinitialisation du mot de passe</Title>
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="password"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          placeholder="Nouveau mot de passe"
-          required
-        />
-        <Input
-          type="password"
-          value={formData.passwordConfirm}
-          onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
-          placeholder="Confirmez le mot de passe"
-          required
-        />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Réinitialisation...' : 'Réinitialiser'}
-        </Button>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {message && <SuccessMessage>{message}</SuccessMessage>}
-      </Form>
+      <Suspense fallback={<LoadingSpinner>Chargement...</LoadingSpinner>}>
+        <ResetPasswordForm />
+      </Suspense>
     </Container>
   );
 };
