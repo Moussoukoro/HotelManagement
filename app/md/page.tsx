@@ -1,11 +1,20 @@
 // app/md/page.tsx
+'use client';
 import React from 'react';
-import { ResetPassword } from '@/components/m/ResetPassword'; // Assurez-vous que le chemin est correct
+import { useSearchParams } from 'next/navigation';
+import { ResetPasswordForm } from '@/components/m/ResetPassword';
 
 const Page = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+
+  if (!token) {
+    return <div>Invalid or missing reset token</div>;
+  }
+
   return (
     <div>
-      <ResetPassword />
+      <ResetPasswordForm token={token} />
     </div>
   );
 };
