@@ -4,7 +4,7 @@ const nextConfig = {
       return [
         {
           source: '/api/:path*',
-          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+          destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/:path*`, // valeur par défaut
         },
       ];
     },
@@ -16,7 +16,7 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: 'http',
-          hostname: process.env.NEXT_PUBLIC_HOSTNAME || '', // Assurez-vous qu'il y a une valeur par défaut
+          hostname: process.env.NEXT_PUBLIC_HOSTNAME || 'localhost', // valeur par défaut
           port: '5000',
           pathname: '/public/uploads/**',
         },
