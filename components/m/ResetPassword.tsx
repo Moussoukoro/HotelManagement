@@ -1,17 +1,17 @@
-// components/ResetPasswordForm.tsx
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import React, { useState, Suspense } from 'react';
 import styled from 'styled-components';
+import { useSearchParams } from 'next/navigation';
 
-const Content = styled.div`
-  background: white;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 400px;
-  padding: 2rem;
+const Container = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #374151;
+  padding: 1rem;
 `;
 
 const Title = styled.h2`
@@ -61,126 +61,104 @@ const Button = styled.button`
   }
 `;
 
-const Alert = styled.div<{ type: 'success' | 'error' }>`
-  padding: 0.75rem;
-  border-radius: 0.375rem;
-  margin-bottom: 1rem;
-  background-color: ${props => props.type === 'success' ? '#DEF7EC' : '#FDE8E8'};
-  color: ${props => props.type === 'success' ? '#03543F' : '#9B1C1C'};
+const ErrorMessage = styled.p`
+  color: #B91C1C;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
 `;
 
-interface ResetPasswordFormProps {
-  token: string | null;
-}
+const SuccessMessage = styled.p`
+  color: #059669;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+`;
 
-export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
-  const router = useRouter();
+const LoadingSpinner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+`;
+
+// Composant interne qui utilise useSearchParams
+const ResetPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+
   const [formData, setFormData] = useState({
     password: '',
     passwordConfirm: ''
   });
-  const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  if (!token) {
-    return (
-      <Content>
-        <Alert type="error">
-          Token de réinitialisation manquant. Veuillez vérifier votre lien.
-        </Alert>
-        <Link href="/auth" passHref legacyBehavior>
-          <a className="block text-center text-gray-600 hover:text-gray-800 text-sm mt-4">
-            Revenir à la connexion
-          </a>
-        </Link>
-      </Content>
-    );
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.passwordConfirm) {
-      setAlert({
-        type: 'error',
-        message: 'Les mots de passe ne correspondent pas'
-      });
+      setError('Les mots de passe ne correspondent pas');
       return;
     }
 
     setIsLoading(true);
-    setAlert(null);
+    setError('');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/${token}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-        credentials: 'include'
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/auth/reset-password/${token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
-
+      
       const data = await response.json();
-
-      if (response.ok) {
-        setAlert({
-          type: 'success',
-          message: 'Votre mot de passe a été réinitialisé avec succès'
-        });
-        setTimeout(() => {
-          router.push('/auth');
-        }, 2000);
+      
+      if (data.status === 'success') {
+        setMessage('Votre mot de passe a été réinitialisé avec succès');
+        setFormData({ password: '', passwordConfirm: '' });
       } else {
-        throw new Error(data.message || 'Une erreur est survenue');
+        setError(data.message);
       }
-    } catch (error) {
-      setAlert({
-        type: 'error',
-        message: error instanceof Error ? error.message : 'Une erreur est survenue'
-      });
+    } catch (err) {
+      console.error(err); 
+      setError('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Content>
-      <Title>Réinitialisation du mot de passe</Title>
-
-      {alert && (
-        <Alert type={alert.type}>
-          {alert.message}
-        </Alert>
-      )}
-
-      <Form onSubmit={handleSubmit}>
-        <Input
-          type="password"
-          placeholder="Nouveau mot de passe"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          required
-          disabled={isLoading}
-        />
-        <Input
-          type="password"
-          placeholder="Confirmez le mot de passe"
-          value={formData.passwordConfirm}
-          onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
-          required
-          disabled={isLoading}
-        />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Réinitialisation...' : 'Réinitialiser le mot de passe'}
-        </Button>
-      </Form>
-
-      <Link href="/auth" passHref legacyBehavior>
-        <a className="block text-center text-gray-600 hover:text-gray-800 text-sm mt-4">
-          Revenir à la connexion
-        </a>
-      </Link>
-    </Content>
+    <Form onSubmit={handleSubmit}>
+      <Input
+        type="password"
+        value={formData.password}
+        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        placeholder="Nouveau mot de passe"
+        required
+      />
+      <Input
+        type="password"
+        value={formData.passwordConfirm}
+        onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
+        placeholder="Confirmez le mot de passe"
+        required
+      />
+      <Button type="submit" disabled={isLoading}>
+        {isLoading ? 'Réinitialisation...' : 'Réinitialiser'}
+      </Button>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {message && <SuccessMessage>{message}</SuccessMessage>}
+    </Form>
   );
-}
+};
+
+// Composant principal avec Suspense
+export const ResetPassword = () => {
+  return (
+    <Container>
+      <Title>Réinitialisation du mot de passe</Title>
+      <Suspense fallback={<LoadingSpinner>Chargement...</LoadingSpinner>}>
+        <ResetPasswordForm />
+      </Suspense>
+    </Container>
+  );
+};
