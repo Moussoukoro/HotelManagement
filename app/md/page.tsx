@@ -218,7 +218,9 @@ const SuccessMessage = styled.p`
 // }
 
 // Component pour réinitialiser le mot de passe
-export const ResetPassword = () => {
+
+
+export default function ResetPassword() {
   const router = useRouter();
   const { token } = router.query; // Obtenir le token directement de l'URL
 
@@ -229,7 +231,6 @@ export const ResetPassword = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -264,7 +265,6 @@ export const ResetPassword = () => {
     }
   };
 
-
   return (
     <Container>
       <Title>Réinitialisation du mot de passe</Title>
@@ -291,7 +291,8 @@ export const ResetPassword = () => {
       </Form>
     </Container>
   );
-};
+}
+
 
 // // Component pour la mise à jour du mot de passe
 // export const UpdatePassword = () => {
