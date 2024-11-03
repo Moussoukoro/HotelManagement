@@ -1,12 +1,15 @@
 "use client";
 
+// Ajout pour forcer le rendu dynamique
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 import React, { useEffect, useState, Suspense } from 'react';
 import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Ajout pour forcer le rendu dynamique
-export const dynamic = "force-dynamic";
+
 
 const Container = styled.div`
   min-height: 100vh;
@@ -119,8 +122,7 @@ const Alert = styled.div<{ type: 'success' | 'error' }>`
   color: ${props => props.type === 'success' ? '#03543F' : '#9B1C1C'};
 `;
 
-
-export default function ResetPassword() {
+const ResetPasswordForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [token, setToken] = useState('');
@@ -205,7 +207,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <Suspense fallback={<div>Chargement...</div>}>
+  
       <Container>
         <LogoContainer>
           <LogoImage src="/red-product-logo.png" alt="RED PRODUCT" />
@@ -250,6 +252,13 @@ export default function ResetPassword() {
           </Link>
         </Content>
       </Container>
-    </Suspense>
+  
   );
-}
+};
+export default function ResetPassword() {
+    return (
+      <Suspense fallback={<div>Chargement...</div>}>
+        <ResetPasswordForm />
+      </Suspense>
+    );
+  }
