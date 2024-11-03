@@ -173,7 +173,7 @@ const Register: React.FC = () => {
   return (
     <RegisterContainer>
       <Logo>
-        <Image src="red-product-logo.png" alt="RED PRODUCT"   width={32} 
+        <Image src="/red-product-logo.png" alt="RED PRODUCT"   width={32} 
                 height={32}   />
         RED PRODUCT
       </Logo>
