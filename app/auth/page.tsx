@@ -7,31 +7,32 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 const LoginContainer = styled.div`
-  width: 100%;
   min-height: 100vh;
-  /* Remplacer la couleur de fond avec une image */
-  background-image: url('/imageFond.jpeg'); /* Chemin de l'image */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    position: relative;
 
-  /* Ajout d'un overlay noir */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #000; /* Overlay complètement noir */
-    z-index: 1;
-  }
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('/imageFond');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.3;
+        z-index: 1;
+    }
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  position: relative;
+    & > * {
+        position: relative;
+        z-index: 2;
+    }
 `;
 
 const Logo = styled.div`
