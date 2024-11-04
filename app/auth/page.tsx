@@ -6,16 +6,16 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Image from 'next/image';
 
-
 const LoginContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   /* Remplacer la couleur de fond avec une image */
-  background-image: url('/imageFond.jpeg'); /* Remplacez avec le chemin de votre image */
+  background-image: url('/imageFond.jpeg'); /* Chemin de l'image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Ajout d'un overlay pour assurer la lisibilité */
+
+  /* Ajout d'un overlay noir */
   &::before {
     content: '';
     position: absolute;
@@ -23,9 +23,10 @@ const LoginContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(55, 65, 81, 0.7); /* Overlay semi-transparent */
+    background: #000; /* Overlay complètement noir */
     z-index: 1;
   }
+
   display: flex;
   flex-direction: column;
   align-items: center;
