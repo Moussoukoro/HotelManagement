@@ -268,7 +268,7 @@ const HotelsList = () => {
               <div key={hotel._id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-48">
                   <img
-                    src={process.env.NEXT_PUBLIC_API_URL+`/${hotel.images[0]}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/${hotel.images[0]}`}
                     alt={hotel.name}
                     
                     className="w-full h-full object-cover"
