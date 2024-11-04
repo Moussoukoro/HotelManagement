@@ -3,7 +3,7 @@ import React, { useState, useEffect,useCallback  } from 'react';
 import { Bell, Menu, LayoutGrid, Hotel, Search, Plus, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import HotelModal from '@/components/hotel/HotelModal';
-import Image from 'next/image';
+
 
 // Mise à jour de l'interface pour correspondre exactement à celle de HotelModal
 interface HotelFormData {
@@ -66,7 +66,7 @@ const Sidebar = () => {
         <div className="flex items-center space-x-3 text-white">
           <div className="w-10 h-10 bg-gray-600 rounded-full" />
           <div>
-            <div className="font-medium">Mouhamet Badiane</div>
+            <div className="font-medium">Mouhamet </div>
             <div className="text-sm text-green-400">en ligne</div>
           </div>
         </div>
@@ -93,7 +93,12 @@ const HotelsList = () => {
     message: '', 
     type: 'success' 
   });
-
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Authorization': `Bearer ${token}`
+    };
+  };
   // ... (autres fonctions utilitaires restent inchangées) ...
   const formatPrice = (price: number, devise: string) => {
     return `${price.toLocaleString()} ${devise}`;
