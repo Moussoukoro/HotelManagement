@@ -11,7 +11,7 @@ const LoginContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   /* Remplacer la couleur de fond avec une image */
-  background-image: url('/imageFond.jpg'); /* Remplacez avec le chemin de votre image */
+  background-image: url('/imageFond.jpeg'); /* Remplacez avec le chemin de votre image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
