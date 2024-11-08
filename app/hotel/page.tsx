@@ -103,7 +103,17 @@ const HotelsList = () => {
   const formatPrice = (price: number, devise: string) => {
     return `${price.toLocaleString()} ${devise}`;
   };
-
+  const formatImageUrl = (imagePath: string): string => {
+    // Décoder l'URL pour gérer les caractères spéciaux
+    try {
+      // Remplacer les caractères spéciaux dans le nom du fichier
+      const cleanPath = imagePath.replace('tÃ©lÃ©chargement', 'telechargement');
+      return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
+    } catch (error) {
+      console.error('Erreur lors du formatage de l\'URL de l\'image:', error);
+      return '/telechargement.jpg'; // Image par défaut en cas d'erreur
+    }
+  };
 
 
   const showAlert = (message: string, type: 'success' | 'error' = 'success'): void => {
@@ -114,7 +124,8 @@ const HotelsList = () => {
   const fetchHotels  = useCallback(async () => {
     try {
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels', {
-        headers: getAuthHeaders() // Ajout des headers d'authentification
+        headers: getAuthHeaders(), // Ajout des headers d'authentification
+         credentials: 'include'
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -207,7 +218,8 @@ const HotelsList = () => {
       try {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/hotels/${hotelId}`, {
           method: 'DELETE',
-          headers: getAuthHeaders() // Ajout des headers d'authentification
+          headers: getAuthHeaders(), // Ajout des headers d'authentification
+           credentials: 'include'
         });
 
         if (response.ok) {
@@ -223,6 +235,11 @@ const HotelsList = () => {
       }
     }
   };
+  
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>): void => {
+    event.currentTarget.src = '/telechargement.jpg';
+  };
+
 
 
 
@@ -280,11 +297,13 @@ const HotelsList = () => {
             {hotels.map((hotel) => (
               <div key={hotel._id} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-48">
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_API_URL}/${hotel.images[0]}`}
+                <img
+                    src={hotel.images && hotel.images.length > 0 
+                      ? formatImageUrl(hotel.images[0])
+                      : '/telechargement.jpg'}
                     alt={hotel.name}
-                    
                     className="w-full h-full object-cover"
+                    onError={handleImageError}
                   />
                   <div className="absolute top-2 right-2 flex space-x-2">
                     <button
