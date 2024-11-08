@@ -113,7 +113,12 @@ const HotelsList = () => {
 
   const fetchHotels  = useCallback(async () => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels');
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels', {
+        headers: getAuthHeaders() // Ajout des headers d'authentification
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
       setHotels(data);
     } catch (error) {
@@ -140,13 +145,15 @@ const HotelsList = () => {
       actualFormData.append('status', 'Active');
       actualFormData.append('contactInfo', '');
 
-      const token = localStorage.getItem('token');
+    // Récupération des headers d'authentification
+    const headers = getAuthHeaders();
+    
+
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/hotels', {
         method: 'POST',
         body: actualFormData,
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        headers: headers,
+      credentials: 'include' // Ajouter ceci si vous utilisez des cookies
       });
 
       if (response.ok) {
@@ -200,6 +207,7 @@ const HotelsList = () => {
       try {
         const response = await fetch(process.env.NEXT_PUBLIC_API_URL+`/api/hotels/${hotelId}`, {
           method: 'DELETE',
+          headers: getAuthHeaders() // Ajout des headers d'authentification
         });
 
         if (response.ok) {

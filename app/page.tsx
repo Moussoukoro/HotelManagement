@@ -7,13 +7,32 @@ import styled from 'styled-components';
 import Image from 'next/image';
 
 const LoginContainer = styled.div`
-  width: 100%;
   min-height: 100vh;
-  background-color: rgb(55, 65, 81);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('/imageFond.jpeg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    & > * {
+        position: relative;
+        z-index: 2;
+    }
 `;
 
 const Logo = styled.div`
