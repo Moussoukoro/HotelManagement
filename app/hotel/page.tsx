@@ -111,7 +111,7 @@ const HotelsList = () => {
       return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
     } catch (error) {
       console.error('Erreur lors du formatage de l\'URL de l\'image:', error);
-      return '/telechargement.jpg'; // Image par défaut en cas d'erreur
+      return '/hotel.jpg'; // Image par défaut en cas d'erreur
     }
   };
 
@@ -237,7 +237,7 @@ const HotelsList = () => {
   };
   
   const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>): void => {
-    event.currentTarget.src = '/telechargement.jpg';
+    event.currentTarget.src = '/hotel.jpg';
   };
 
 
@@ -300,7 +300,7 @@ const HotelsList = () => {
                 <img
                     src={hotel.images && hotel.images.length > 0 
                       ? formatImageUrl(hotel.images[0])
-                      : '/telechargement.jpg'}
+                      : '/hotel.jpg'}
                     alt={hotel.name}
                     className="w-full h-full object-cover"
                     onError={handleImageError}
